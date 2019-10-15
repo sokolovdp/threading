@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format='[%(levelname)s])] [%(threadName)
 def sum_naming(a, b):
     thread_name = threading.current_thread().getName()
     logging.info(f'{thread_name} thread starting')
-    print(a+b)
+    logging.info(str(a+b))
     time.sleep(1)
     logging.info(f'{thread_name} thread ending')
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     for thread in my_threads:
         thread.setDaemon(True)
         thread.start()
-        print(thread.is_alive(), thread.isDaemon())
+        logging.info(str(thread.is_alive()) + ' ' + str(thread.isDaemon()))
 
     for thread in threading.enumerate():
         if thread is threading.current_thread():
@@ -74,4 +74,3 @@ if __name__ == '__main__':
         t = threading.Thread(target=f, args=(d,))
         t.start()
 
-    print('STOP TEST!!!!!!')
