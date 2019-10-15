@@ -1,6 +1,7 @@
 import threading
 import logging
 import time
+import random
 
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s])] [%(threadName)s] [%(message)s]')
@@ -18,6 +19,21 @@ def waiting_for_event(e):
     logging.info('waiting for event....')
     event_is_set = e.wait()
     logging.info(f'event has happened {event_is_set}')
+
+
+def show(local):
+    try:
+        val = local.val
+    except AttributeError:
+        logging.info('No value yet')
+    else:
+        logging.info('value=%s', val)
+
+
+def f(local):
+    show(local)
+    local.val = random.randint(1, 100)
+    show(local)
 
 
 my_threads = []
@@ -46,5 +62,16 @@ if __name__ == '__main__':
 
     my_event.set()
 
-    # time.sleep(9)
+    time.sleep(3)
+
+    logging.info(f'testing local thread storage..........')
+    d = threading.local()
+    show(d)
+    d.val = 999
+    show(d)
+
+    for i in range(2):
+        t = threading.Thread(target=f, args=(d,))
+        t.start()
+
     print('STOP TEST!!!!!!')
