@@ -3,7 +3,6 @@ import logging
 import time
 import random
 
-
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s])] [%(threadName)s] [%(message)s]')
 
 
